@@ -1,0 +1,24 @@
+npm init
+npm install express
+npm install mongoose
+npm install dotenv
+npm install bcryptjs
+npm install express-async-handler
+npm install express-validator
+npm install jsonwebtoken
+npm install joi
+npm install bcrypt
+npm install ejs
+npm install --save lodash
+npm install dayjs
+npm install stripe
+npm install nodemon
+npm install nodemailer
+npm install uuid
+npm install @stripe/stripe-js
+npm install cors
+npm install cookie-parser
+
+=========================================================================
+
+
