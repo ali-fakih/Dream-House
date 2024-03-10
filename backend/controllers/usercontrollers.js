@@ -27,45 +27,25 @@ transporter.verify((error, success) => {
   }
 });
 //===================== NodeMailer Ends ===============================================================
-
-
-//==========================Sending Email Function for Contact Us starts================================
-
-//function to sends emails in contact us page through nodemailer//
-exports.sendEmail = async (req, res) => {
+exports.verifyPassword = async (req, res) => {
   try {
-    // Extract name, email, and message from the request body
-    const { name, email, message } = req.body;
+    const { email, password } = req.body;
 
-    // Construct the email options
-    const mailOptions = {
-      from: process.env.AUTH_EMAIL,
-      to: email,
-      subject: `Thank You for Reaching Out to EDUSpecial!`, // Updated subject
-      html: `
-        <h1 style="color: #4CAF50;">Hello ${name},</h1>
-        <p style="font-size: 16px;">Thank you for contacting EDUSpecial!</p>
-        <p style="font-size: 16px;">We appreciate your interest and will get back to you as soon as possible.</p>
-        <p style="font-size: 16px;">Your Message:</p>
-        <blockquote style="border-left: 5px solid #4CAF50; padding-left: 10px; font-size: 16px;">${message}</blockquote>
-        <p style="font-size: 16px;">Best Regards,<br/>The EDUSpecial Team</p>
-      `, // Updated HTML message
-    };
+    // Find the user by email
+    const user = await User.findOne({ email });
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
+    // If user not found or password does not match, return false
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.json({ valid: false });
+    }
 
-    // Respond with success message
-    res.status(200).json({ message: "Email sent successfully" });
+    // If password matches, return true
+    return res.json({ valid: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-//==========================Sending Email Function for Contact Us starts================================
-
 
 //================= User Authentication and Verification  Starts ======================================
 // verify email
@@ -336,138 +316,16 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// Function to change user password
-exports.changePassword = async (req, res) => {
-  try {
-    const userId = req.user.id; // Assuming user ID is obtained from the JWT token
-    const { oldPassword, newPassword, confirmPassword } = req.body;
 
-    // Extract token from Authorization header
-    const token = req.headers.authorization.split(' ')[1]; // Assuming the token is sent as "Bearer <token>"
-
-    // Verify token using the same secret key as middleware
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ error: 'Invalid token' });
-      }
-
-      // Token is valid, proceed with changing password
-
-      // Find the user by ID
-      const user = await User.findById(userId);
-
-      // Check if the user exists
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      // Verify old password
-      const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
-      if (!isOldPasswordValid) {
-        return res.status(401).json({ error: 'Incorrect old password' });
-      }
-
-      // Check if the new password matches the confirm password
-      if (newPassword !== confirmPassword) {
-        return res.status(400).json({ error: 'Passwords do not match' });
-      }
-
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-      // Update user's password
-      user.password = hashedPassword;
-
-      // Save the updated user information
-      await user.save();
-
-      // Respond with success message
-      res.status(200).json({ message: 'Password changed successfully' });
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-
-//============================== Password Management Ends ==============================================
-// Function to register a new user
-exports.registerUser = async (req, res) => {
-  try {
-    const { role, firstname, lastname, password, email } = req.body;
-
-    const existingUser = await User.findOne({
-      $or: [{ email }],
-    });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    // Set default role (e.g., "user")
-    const defaultRole = "user";
-    const newUser = new User({
-      role: defaultRole,
-      firstname,
-      lastname,
-      password: hashedPassword,
-      email,
-    });
-
-    await newUser.save();
-
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-//todo function for stripe payments-----------------------------
-exports.Payments = async (req, res) => {
-  try {
-    // Check if req.body.items exists and is an array
-    if (!req.body.items || !Array.isArray(req.body.items)) {
-      return res.status(400).json({
-        error: "Invalid or missing 'items' property in the request body.",
-      });
-    }
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items: req.body.items.map((item) => {
-        return {
-          price_data: {
-            currency: "usd", // Change to the appropriate currency code
-            product_data: {
-              name: item.name,
-            },
-            unit_amount: item.price * 100,
-          },
-          quantity: item.quantity,
-        };
-      }),
-      success_url: "http://localhost:3000/users/login",
-      cancel_url: "http://localhost:3000/",
-    });
-    res.json({ url: session.url });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-//todo Function to refresh access token using refresh token
+//! refresh token function
 exports.refreshToken = async (req, res) => {
   try {
     // Extract refresh token from the Authorization header
     const refreshTokenHeader = req.header("Authorization");
 
-    if (invalidatedRefreshTokens.includes(refreshTokenHeader)) {
-      return res.status(401).json({ error: "Invalid refresh token" });
-    }
+    // if (invalidatedRefreshTokens.includes(refreshTokenHeader)) {
+    //   return res.status(401).json({ error: "Invalid refresh token" });
+    // }
     if (!refreshTokenHeader) {
       return res.status(400).json({ error: "Refresh token not provided" });
     }
@@ -490,7 +348,7 @@ exports.refreshToken = async (req, res) => {
 
     // Generate a new access token
     const newAccessToken = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-      expiresIn: "7 minutes",
+      expiresIn: "3 minutes",
     });
 
     // Generate a new refresh token (optional, if you want to rotate refresh tokens)
@@ -498,7 +356,7 @@ exports.refreshToken = async (req, res) => {
       { id: userId },
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: "7 days", // Choose an appropriate expiration time
+        expiresIn: "1 day", // Choose an appropriate expiration time
       }
     );
 
@@ -511,8 +369,40 @@ exports.refreshToken = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.Payments = async (req, res) => {
+  try {
+    // Check if req.body.items exists and is an array
+    if (!req.body.items || !Array.isArray(req.body.items)) {
+      return res.status(400).json({
+        error: "Invalid or missing 'items' property in the request body.",
+      });
+    }
 
-//todo time for incorrect login --------------------
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: req.body.items.map((item) => {
+        const currentUrl = `${req.protocol}://${req.headers.host}${req.originalUrl}`;
+        return {
+          price_data: {
+            currency: "usd", // Change to the appropriate currency code
+            product_data: {
+              name: item.name,
+            },
+            unit_amount: item.price * 100,
+          },
+          quantity: item.quantity,
+        };
+      }),
+      success_url: "http://localhost:3001/home",
+      cancel_url: "http://localhost:3001/",
+    });
+    res.json({ url: session.url });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+//! login function
 const MAX_LOGIN_ATTEMPTS = 20;
 const LOCKOUT_TIME_SHORT = 1 * 60 * 1000; // 1 minute
 const LOCKOUT_TIME_LONG = 60 * 60 * 1000; // 1 hour
@@ -585,13 +475,13 @@ exports.loginUser = async (req, res) => {
 
     // Generate JWT tokens
     const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "4 minutes",
+      expiresIn: "1 minute",
     });
     const refreshToken = jwt.sign(
       { id: user._id },
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: "5 minutes",
+        expiresIn: "1 day",
       }
     );
 
@@ -606,14 +496,14 @@ exports.loginUser = async (req, res) => {
       sameSite: "Lax", // Adjust as needed
     });
     res.header("Authorization", "Bearer " + accessToken);
+
     res.status(200).json({
       message: "Login successfully",
       accessToken,
       refreshToken,
       role: user.role,
       email,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      username: user.username,
     });
   } catch (error) {
     console.error(error);
@@ -630,40 +520,16 @@ function formatRemainingTime(timeInMilliseconds) {
     "0"
   )}`;
 }
-//? Function to format remaining time in MM:SS format---------------
-//! Maintain a list of invalidated refresh tokens (in-memory or persistent store)
-const invalidatedRefreshTokens = [];
-
 // Function to handle user logout
 exports.logoutUser = async (req, res) => {
   try {
-    // Get the access token from the request headers
-    const accessTokenHeader = req.header("Authorization");
-    const accessToken = accessTokenHeader
-      ? accessTokenHeader.replace("Bearer ", "")
-      : null;
-
-    // Optionally, you can also get the refresh token if needed
-    const refreshTokenHeader = req.header("refreshauth");
-    const refreshToken = refreshTokenHeader
-      ? refreshTokenHeader.replace("Bearer ", "")
-      : null;
-
-    // Your logic to handle the tokens (e.g., invalidate them)
-
-    // Clear any existing tokens on the client-side (cookies, localStorage, etc.)
     // Clear cookies in the response
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
 
-    // Optionally, you can also add the tokens to the list of invalidated tokens
-    if (accessToken && !invalidatedRefreshTokens.includes(accessToken)) {
-      invalidatedRefreshTokens.push(accessToken);
-    }
-    if (refreshToken && !invalidatedRefreshTokens.includes(refreshToken)) {
-      invalidatedRefreshTokens.push(refreshToken);
-    }
-
+    // Clear tokens from headers
+    delete req.headers["accessToken"];
+    delete req.headers["refreshToken"];
     // Respond with a success message
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
@@ -671,7 +537,49 @@ exports.logoutUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// ! Crud Operations user ------------------------------------------------------------------
+// Function to register a new user
+exports.registerUser = async (req, res) => {
+  try {
+    const { role, username, password, email } = req.body;
 
+    const existingUser = await User.findOne({
+      $or: [{ email }],
+    });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    // Set default role (e.g., "user")
+    const defaultRole = "user";
+    const newUser = new User({
+      role: defaultRole,
+      username,
+      password: hashedPassword,
+      email,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+// Function to retrieve all users
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0 }); // Exclude the password field from the results
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
 // Function to get user by ID
 exports.getUserById = async (req, res) => {
   try {
@@ -687,8 +595,7 @@ exports.getUserById = async (req, res) => {
       user: {
         _id: user._id,
         role: user.role,
-        firstname: user.firstname,
-        lastname: user.lastname,
+        username: user.username,
         email: user.email,
       },
     });
@@ -697,12 +604,11 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 // Function to update user information by ID
 exports.updateUserById = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { role, firstname, lastname, email, password } = req.body;
+    const { role, username, email, password } = req.body;
 
     const user = await User.findById(userId);
 
@@ -711,8 +617,7 @@ exports.updateUserById = async (req, res) => {
     }
 
     user.role = role || user.role;
-    user.firstname = firstname || user.firstname;
-    user.lastname = lastname || user.lastname;
+    user.username = username || user.username;
     user.email = email || user.email;
 
     if (password) {
@@ -729,38 +634,6 @@ exports.updateUserById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// Function to update user information by email
-exports.updateUserByEmail = async (req, res) => {
-  try {
-    const userEmail = req.params.email;
-    const { role, firstname, lastname, email, password } = req.body;
-
-    const user = await User.findOne({ email: userEmail });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user.role = role || user.role;
-    user.firstname = firstname || user.firstname;
-    user.lastname = lastname || user.lastname;
-    user.email = email || user.email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
-    }
-
-    await user.save();
-
-    res.status(200).json({ message: "User updated successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
 // Function to delete a user account by ID
 exports.deleteUserById = async (req, res) => {
   try {
@@ -780,69 +653,12 @@ exports.deleteUserById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// Function to delete a user account by email
-exports.deleteUserByEmail = async (req, res) => {
-  try {
-    const userEmail = req.params.email;
-
-    const user = await User.findOne({ email: userEmail });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    await user.deleteOne();
-
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Function to retrieve a user by email
-exports.getUserByEmail = async (req, res) => {
-  try {
-    const userEmail = req.params.email;
-
-    const user = await User.findOne({ email: userEmail });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({
-      user: {
-        _id: user._id,
-        role: user.role,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
-// Function to retrieve all users
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find({}, { password: 0 }); // Exclude the password field from the results
-
-    res.status(200).json({ users });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-};
 // Function to retrieve a user by firstname
-exports.getUserByFirstname = async (req, res) => {
+exports.getUserByUsername = async (req, res) => {
   try {
-    const userfirstname = req.params.firstname; // Extract the firstname from the request params
+    const userfirstname = req.params.username; // Extract the firstname from the request params
 
-    const user = await User.findOne({ firstname: userfirstname });
+    const user = await User.findOne({ username: userfirstname });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -853,8 +669,7 @@ exports.getUserByFirstname = async (req, res) => {
       user: {
         _id: user._id,
         role: user.role,
-        firstname: user.firstname,
-        lastname: user.lastname,
+        username: user.username,
         email: user.email,
       },
     });
@@ -863,4 +678,39 @@ exports.getUserByFirstname = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-//============================= User CRUD Operations Ends =============================================
+
+
+//==========================Sending Email Function for Contact Us starts================================
+
+//function to sends emails in contact us page through nodemailer//
+exports.sendEmail = async (req, res) => {
+  try {
+    // Extract name, email, and message from the request body
+    const { name, email, message } = req.body;
+
+    // Construct the email options
+    const mailOptions = {
+      from: process.env.AUTH_EMAIL,
+      to: email,
+      subject: `Thank You for Reaching Out to Dream House!`, // Updated subject
+      html: `
+        <h1 style="color: #4CAF50;">Hello ${name},</h1>
+        <p style="font-size: 16px;">Thank you for contacting Dream House!</p>
+        <p style="font-size: 16px;">We appreciate your interest and will get back to you as soon as possible.</p>
+        <p style="font-size: 16px;">Your Message:</p>
+        <blockquote style="border-left: 5px solid #4CAF50; padding-left: 10px; font-size: 16px;">${message}</blockquote>
+        <p style="font-size: 16px;">Best Regards,<br/>The Dream House Team</p>
+      `, // Updated HTML message
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    // Respond with success message
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+//==========================Sending Email Function for Contact Us starts================================

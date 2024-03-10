@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 const URI = process.env.MONGODB_URI;
-const databaseName = "RealEstate";
+const databaseName = "DreamHome";
 
 // Use the mongoose instance from config.js
 mongoose.connect(URI, {

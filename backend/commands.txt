@@ -18,6 +18,13 @@ npm install uuid
 npm install @stripe/stripe-js
 npm install cors
 npm install cookie-parser
+npm install multer
+npm install email-validator
+
+npm install @socket.io/redis-adapter
+npm install socket.io-redis
+npm install redis
+
 
 =========================================================================
 

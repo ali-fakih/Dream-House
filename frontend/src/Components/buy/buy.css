@@ -1,0 +1,314 @@
+/*===========================================
+      buy-filter section starts
+==============================================*/
+
+.buy-filter {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Align items vertically */
+    justify-content: center;
+}
+
+.input-location {
+    flex: 1; 
+}
+
+
+.lable {
+    line-height: 22px;
+    font-size: 17px;
+    color: #fff;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
+
+
+/*===========================================
+      buy-filter section ends
+==============================================*/
+
+/*==============================================
+ buying cards section starts
+================================================*/
+.overlay,
+.img-overlay img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+.BuyingCards-container {
+    display: grid;
+    grid-template-columns: 1fr repeat(12, minmax(auto, 60px)) 1fr;
+    grid-gap: 40px;
+    margin: 35px 0;
+    font-family: "Open Sans", sans-serif;
+    background-color: #f4f4f4;
+    box-sizing: border-box
+}
+
+.BUY-cards::before {
+    content: "featured";
+    position: absolute;
+    z-index: 5;
+    color: white;
+    background-color: #ea723d;
+    text-transform: capitalize;
+    top: 0;
+    left: 0;
+    transform: translateY(-50%);
+    padding: 7px 7px;
+}
+
+.BUY-cards {
+    grid-column: 2 / span 12;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(auto, 60px));
+    grid-gap: 40px;
+    position: relative;
+}
+
+.BUY-cards::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 81.6px;
+    border: 16.4px solid transparent;
+    border-left-color: #ea723d;
+    transform: translateY(-50%);
+}
+
+.card-properties {
+    grid-column-end: span 4;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white;
+    box-shadow: 0px 0px 7px 3px #dfdfdf;
+    height: 550px; /* Adjust the height as per your requirement */
+}
+
+
+.card-properties:hover {
+    transform: translateY(-7px);
+}
+
+.img-overlay {
+    width: 100%;
+    padding-top: 56.25%;
+    position: relative;
+    overflow: hidden;
+}
+
+.hot-home:before {
+    content: "hot";
+    position: absolute;
+    padding: 3px 7px;
+    background-color: #dd3333;
+    z-index: 3;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    text-transform: capitalize;
+}
+
+.img-overlay img {
+    width: 100%;
+    z-index: 1;
+}
+
+.img-overlay img:hover + div {
+    width: 100%;
+}
+
+figcaption {
+    padding: 30px 0 30px 30px;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: var(--h2-text-color);
+    font-size: 1.2rem;
+}
+
+.overlay {
+    width: 0;
+    height: 100%;
+    display: grid;
+    place-content: center;
+    background-color: #3b9f93;
+    opacity: 0.8;
+    z-index: 2;
+    transition: all 0.5s ease 0.1s;
+}
+
+.overlay:hover {
+    width: 100%;
+}
+
+.overlay:hover > a {
+    display: block;
+    text-align: center;
+    border-color: #a4d2c3;
+}
+
+.overlay a {
+    display: none;
+    width: 140px;
+    padding: 15px 0;
+    text-transform: capitalize;
+    border: 2px solid transparent;
+    transition: border 10s ease;
+}
+
+.cont {
+    position: absolute;
+    z-index: 6;
+    width: 100%;
+    height: 100%;
+}
+
+.icons-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.icons-img button {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    top: -40px;
+    z-index: 10;
+}
+
+.icons-img button:first-of-type {
+    right: 55px;
+}
+
+.icons-img button:last-of-type {
+    right: 20px;
+}
+
+.icons-img button:first-of-type:hover {
+    right: 55px;
+    color: #ff3232;
+}
+
+.icons-img i {
+    font-size: 25px;
+}
+
+.card-content {
+    padding: 0px 30px 30px;
+    line-height: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    font-size: 14px;
+}
+
+.card-content p {
+    color: #7e8186;
+}
+
+.icons-home {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name-icon {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.name-icon > span {
+    text-transform: capitalize;
+    color: #1a1a1a;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.icon i {
+    color: #808080;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.icon span {
+    vertical-align: middle;
+}
+.location,
+.price {
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+}
+.location span:last-of-type,
+.price span:last-of-type {
+    color: #2fa89e;
+    font-size: 18px;
+}
+
+@media screen and (max-width: 1000px) {
+    .card-properties {
+        grid-column-end: span 6;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .BUY-cards {
+        grid-template-columns: repeat(12, minmax(auto, 1fr));
+        grid-column-gap: 10px;
+        grid-row-gap: 30px;
+    }
+    .card-properties {
+        grid-column-end: span 12;
+    }
+    .card-content {
+        font-size: 16px;
+    }
+    .location span:last-of-type,
+    .price span:last-of-type {
+        color: #2fa89e;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .BuyingCards-container {
+        grid-template-columns: 20px repeat(12, minmax(auto, 1fr)) 20px;
+        grid-gap: 10px;
+    }
+    .BUY-cards {
+        grid-template-columns: repeat(12, minmax(auto, 1fr));
+        grid-column-gap: 10px;
+        grid-row-gap: 30px;
+    }
+    .card-properties {
+        grid-column-end: span 12;
+    }
+}
+
+/*==============================================
+ buying cards section endss
+================================================*/

@@ -1,0 +1,101 @@
+.intro-agent {
+  margin-top: 30px;
+}
+
+.landing-agent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container-agent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-gap: 2rem;
+}
+
+.agents-cards {
+  background: linear-gradient(135deg, #11CF11 0%, #2eca6a 100%);
+  overflow: hidden;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px #00000070;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  margin: 3rem auto;
+  transition: transform 0.3s;
+}
+
+.agents-cards:hover {
+  transform: translateY(-0.5rem) scale(1.03);
+}
+
+.top-agent-section {
+  position: relative;
+}
+
+.agents-cards .top-agent-section img {
+  width: 100%;
+}
+
+.agent-name {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 40px;
+  color: #fff;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.agent-name span {
+  background: #333;
+  padding: 0 5px;
+}
+
+.agent-name span:last-of-type {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.info-agent-section {
+  padding: 0 40px 40px;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.info-agent-section h2 {
+  padding: 1rem 0 1rem;
+}
+
+.info-agent-section h2:after {
+  position: absolute;
+  content: "";
+  height: 3px;
+  width: 40px;
+  background: #fff;
+}
+
+.info-agent-section p {
+  text-align: justify;
+}
+
+.social-agent-icons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.social-agent-icons a {
+  text-decoration: none;
+  color: black;
+}
+
+.social-agent-icons a:hover {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .container-agent {
+      grid-template-columns: 1fr;
+  }
+}
