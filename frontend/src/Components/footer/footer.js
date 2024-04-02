@@ -1,95 +1,117 @@
-// Footer.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import '../../App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShieldHalved, faFile } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import './footer.css';
 
-
 const Footer = () => {
-    const location = useLocation();
-    const hideFooter = ['/signin', '/signup', '/reset-password', '/emailVerify', 'AdminDash'].includes(location.pathname);
+  const location = useLocation();
 
-    if (hideFooter) {
-        return null; // Hide footer if on sign-in, sign-up, reset password, or email verification page
-    }
+  const shouldHideHeader =
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/signup') ||
+    location.pathname.startsWith('/reset-password') ||
+    location.pathname.startsWith('/auth') ||
+    location.pathname.startsWith('/dashboardAgent') ||
+    location.pathname.startsWith('/login');
+  if (shouldHideHeader) {
+    return null;
+  }
 
-    return (
+  return (
+    <footer className="Foot text-white py-5">
+      <div className="container">
+        <div className="row">
+          {/* Logo and Description */}
+          <div className="col-md-3">
+            <img className='w-50 h-50 mb-3' src={require("../../Assets/images/imgbin-green-home-house-removebg-preview.png")} alt="s" />
+            <h2 className="text-2xl font-bold mb-3">Dream House</h2>
+            <p className="text-black">
+              Dream House is a leading real estate company dedicated to helping you find your dream home.
+            </p>
+          </div>
 
+          {/* Contact Information */}
+          <div className="col-md-3">
+            <h3 className="text-2xl font-bold mb-3 italic">Legal</h3>
+            <ul className="list-unstyled text-gray-400">
+              <li className="mb-2 d-flex align-items-center text-white">
+                <FontAwesomeIcon icon={faShieldHalved} className="mr-2 text-black" />
+                Privacy Notice
+              </li>
+              <li className="mb-2 d-flex align-items-center text-white">
+                <FontAwesomeIcon icon={faFile} className="mr-2 text-black" />
+                Terms of Use
+              </li>
+            </ul>
+          </div>
 
-        <div className="pg-footer">
-            <footer className="footer">
-                <svg className="footer-wave-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none">
-                    <path className="footer-wave-path" d="M851.8,100c125,0,288.3-45,348.2-64V0H0v44c3.7-1,7.3-1.9,11-2.9C80.7,22,151.7,10.8,223.5,6.3C276.7,2.9,330,4,383,9.8 c52.2,5.7,103.3,16.2,153.4,32.8C623.9,71.3,726.8,100,851.8,100z"></path>
-                </svg>
-                <div className="footer-content">
-                    <div className="footer-content-column">
-                        <div className="footer-logo">
-                            <Link to="/" className="footer-logo-link">
-                                <span className="hidden-link-text">
-                                <img className='w-20 h-20' src={require("../../Assets/images/logo.jpeg")} alt="s" />
-                                    </span>
-                                <h1 className='font-bold text-2xl text-black'>Dream<span className="text-white">Home</span></h1>
-                            </Link>
-                        </div>
+          {/* Quick Links */}
+          <div className="col-md-3">
+            <h3 className="text-2xl font-bold mb-3 italic">Quick Links</h3>
+            <ul className="list-unstyled text-gray-400">
+              <li className="mb-2">
+                <Link to="/" className="text-white">
+                  Home
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/buy" className="text-white">
+                  Buy
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/sell" className="text-white">
+                  Sell
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/agent" className="text-white">
+                  Agent
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/about" className="text-white">
+                  About
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/contact" className="text-white">
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-                    </div>
-                    <div className="footer-content-column">
-                        <div className="footer-menu">
-                            <h2 className="footer-menu-name"> Company</h2>
-                            <ul id="menu-company" className="footer-menu-list">
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page">
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-taxonomy menu-item-object-category">
-                                    <Link to="/buy">Buy</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page">
-                                    <Link to="/sell">Sell</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page">
-                                    <Link to="/agent">Agent</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page">
-                                    <Link to="/about">About</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page">
-                                    <Link to="/contact">Contact</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                    </div>
-                    <div className="footer-content-column">
-                        <div className="footer-menu">
-                            <h2 className="footer-menu-name"> Legal</h2>
-                            <ul id="menu-quick-links" className="footer-menu-list">
-                                <li className="menu-item menu-item-type-custom menu-item-object-custom">
-                                    <Link to="/" target="_blank" rel="noopener noreferrer" >Privacy Notice</Link>
-                                </li>
-                                <li className="menu-item menu-item-type-custom menu-item-object-custom">
-                                    <Link to="/" target="_blank" rel="noopener noreferrer" >Terms of Use</Link>
-                                </li>
-                              
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="footer-content-column">
-                        <div className="footer-call-to-action">
-                            <h2 className="footer-call-to-action-title"> Let's Chat</h2>
-                            <p className="footer-call-to-action-description"> Have a support question?</p>
-                            <Link to="/" className="footer-call-to-action-button button" target="_self"> Get in Touch </Link>
-                        </div>
-                        <div className="footer-call-to-action">
-                            <h2 className="footer-call-to-action-title"> You Call Us</h2>
-                            <p className="footer-call-to-action-link-wrapper"> <Link to="tel:0096181755763" className="footer-call-to-action-link" target="_self"> 0096181755763 </Link></p>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </footer>
+          {/* Social Media Links */}
+          <div className="col-md-3">
+            <h3 className="text-2xl font-bold mb-3 italic">Follow Us</h3>
+            <div className="d-flex">
+              <Link to="/" className="text-gray-400 hover-text-white mr-3" aria-label="Facebook">
+                <FontAwesomeIcon icon={faFacebook} size="2x" />
+              </Link>
+              <Link to="/" className="text-gray-400 hover-text-white mr-3" aria-label="Twitter">
+                <FontAwesomeIcon icon={faTwitter} size="2x" />
+              </Link>
+              <Link to="/" className="text-gray-400 hover-text-white mr-3" aria-label="Instagram">
+                <FontAwesomeIcon icon={faInstagram} size="2x" />
+              </Link>
+              <Link to="/" className="text-gray-400 hover-text-white" aria-label="LinkedIn">
+                <FontAwesomeIcon icon={faLinkedin} size="2x" />
+              </Link>
+            </div>
+          </div>
         </div>
 
-    );
+        {/* Copyright */}
+        <div className="text-center text-white mt-5">
+          <p>&copy; {new Date().getFullYear()} Dream House. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

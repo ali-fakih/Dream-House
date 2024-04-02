@@ -1,5 +1,5 @@
 import React from "react";
-import Resetpassword from "../Components/SignIN_SignUP/reset_password";
+import Resetpassword from "../Components/joinUS/reset_password";
 function ResetPassword() {
   return <Resetpassword />;
 }

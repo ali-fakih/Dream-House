@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-
-
-
+const Joi = require("joi");
+const { validationResult } = require("express-validator");
 // Middleware to verify the JWT token
 const verifyToken = (req, res, next) => {
   const authorizationHeader = req.header("Authorization");
@@ -59,16 +58,6 @@ const checkAdminRole = async (req, res, next) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Middleware to check if user is admin or agent
-const isAgentOrAdmin = async (req, res, next) => {
-  if (req.user && (req.user.role === "admin" || req.user.role === "agent")) {
-    next();
-  } else {
-    res.status(403).send("Unauthorized, admin or agent access required");
-  }
-};
-
 // Middleware to check if the user is the owner of the resource or has admin role
 const checkResourceOwnership = async (req, res, next) => {
   const userId = req.user.id;
@@ -201,5 +190,4 @@ module.exports = {
   validateResetPassword,
   validateUserVerification,
   validateShowVerifiedPage,
-  isAgentOrAdmin
 };

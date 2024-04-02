@@ -1,78 +1,68 @@
-li {
-  position: relative;
-  color: black;
-}
-li:hover {
-  color: black; /* Ensure text color remains the same on hover */
-}
-
-li::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  transition: black 0.3s ease;
-}
-
-li:hover::after {
-  background-color: #2eca6a; /* Change the color of the line on hover */
-}
-
-button {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
-  font-size: 17px;
-  padding: 1em 2.7em;
-  font-weight: 500;
-  background: #1f2937;
-  color: white;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.6em;
-  cursor: pointer;
-}
-
-.gradient {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
+/* Default styles */
+#header {
+  position: fixed;
+  z-index: 30;
   top: 0;
-  border-radius: 0.6em;
-  margin-top: -0.25em;
-  background-image: linear-gradient(
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.3)
-  );
+  margin-top: 3rem;
+  color: black;
+  background-color: white;
+  border-radius: 20 35 20 35;
+  width: calc(100% - 2rem);
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
-.label {
-  position: relative;
-  top: -1px;
+.container {
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.transition {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 500ms;
-  background-color: #2eca6a;
-  border-radius: 9999px;
-  width: 0;
-  height: 0;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+/* Responsive styles */
+@media screen and (min-width: 640px) {
+  .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+  }
 }
 
-button:hover .transition {
-  width: 14em;
-  height: 14em;
+/* Larger screens */
+@media screen and (min-width: 1024px) {
+  .lg\:hidden {
+      display: none;
+  }
+  .lg\:flex {
+      display: flex;
+  }
 }
 
-button:active {
-  transform: scale(0.97);
+/* Menu for smaller screens */
+@media screen and (max-width: 1023px) {
+  .lg\:flex {
+      display: none;
+  }
+}
+
+/* Menu toggle button */
+@media screen and (min-width: 1024px) {
+  .lg\:hidden {
+      display: none;
+  }
+}
+
+/* Adjustments for mobile menu */
+@media screen and (max-width: 1023px) {
+  .lg\:hidden {
+      display: none;
+  }
+  .lg\:block {
+      display: block;
+  }
+  .lg\:my-0 {
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  .lg\:mr-4 {
+      margin-right: 0;
+  }
 }

@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
     };
 
     fetchAccessToken();
-  },);
+  });
 
   const refreshAccessToken = async () => {
     try {
@@ -138,7 +138,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isLoggedIn) {
     // Redirect to the sign-in page if not logged in
-    return <Navigate to="/signin" />;
+    return <Navigate to="/" />;
   }
 
   return <>{children}</>;

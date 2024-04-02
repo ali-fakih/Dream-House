@@ -1,7 +1,7 @@
 import React from "react";
-import Signup from "../Components/SignIN_SignUP/Sign_UP";
-function SignUP() {
-  return <Signup />;
+import SignUps from "../Components/joinUS/signUp";
+function SignUp() {
+  return <SignUps />;
 }
 
-export default SignUP;
+export default SignUp;

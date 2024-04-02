@@ -501,6 +501,7 @@ exports.loginUser = async (req, res) => {
       message: "Login successfully",
       accessToken,
       refreshToken,
+      id: user._id,
       role: user.role,
       email,
       username: user.username,
@@ -555,7 +556,7 @@ exports.registerUser = async (req, res) => {
     // Set default role (e.g., "user")
     const defaultRole = "user";
     const newUser = new User({
-      role: defaultRole,
+      role: role || defaultRole,
       username,
       password: hashedPassword,
       email,
@@ -592,12 +593,10 @@ exports.getUserById = async (req, res) => {
     }
 
     res.status(200).json({
-      user: {
-        _id: user._id,
-        role: user.role,
-        username: user.username,
-        email: user.email,
-      },
+      _id: user._id,
+      role: user.role,
+      username: user.username,
+      email: user.email,
     });
   } catch (error) {
     console.error(error);
@@ -678,8 +677,6 @@ exports.getUserByUsername = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
 //==========================Sending Email Function for Contact Us starts================================
 
 //function to sends emails in contact us page through nodemailer//
@@ -692,14 +689,14 @@ exports.sendEmail = async (req, res) => {
     const mailOptions = {
       from: process.env.AUTH_EMAIL,
       to: email,
-      subject: `Thank You for Reaching Out to Dream House!`, // Updated subject
+      subject: `Thank You for Reaching Out to DreamHouse Agency!`, // Updated subject
       html: `
         <h1 style="color: #4CAF50;">Hello ${name},</h1>
-        <p style="font-size: 16px;">Thank you for contacting Dream House!</p>
+        <p style="font-size: 16px;">Thank you for contacting DreamHouse!</p>
         <p style="font-size: 16px;">We appreciate your interest and will get back to you as soon as possible.</p>
         <p style="font-size: 16px;">Your Message:</p>
         <blockquote style="border-left: 5px solid #4CAF50; padding-left: 10px; font-size: 16px;">${message}</blockquote>
-        <p style="font-size: 16px;">Best Regards,<br/>The Dream House Team</p>
+        <p style="font-size: 16px;">Best Regards,<br/>The DreamHouse Team</p>
       `, // Updated HTML message
     };
 
@@ -713,4 +710,6 @@ exports.sendEmail = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
 //==========================Sending Email Function for Contact Us starts================================

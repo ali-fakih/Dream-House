@@ -1,48 +1,34 @@
+# First set of installations
 npx create-react-app frontend
 npm install react-router-dom
-
-# Free icons styles
-
 npm install @fortawesome/react-fontawesome
-
-
-#first
-
-npm i --save @fortawesome/fontawesome-svg-core
-
-#Second
-npm i --save @fortawesome/free-solid-svg-icons
-npm i --save @fortawesome/free-regular-svg-icons
-npm i --save @fortawesome/free-brands-svg-icons
-
+npm install @fortawesome/fontawesome-svg-core
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/free-regular-svg-icons
+npm install @fortawesome/free-brands-svg-icons
 npm install axios
-
 npm install antd@^5.13.2 react-scripts@5.0.1 web-vitals@^2.1.4
-
-#news commands 
-
-npm run start  
 npm install react-slick slick-carousel
-
- npm install react-owl-carousel owl.carousel
-
-# install tailwind , then install daisyui
+npm install react-swipeable-views
+npm install react-owl-carousel owl.carousel
 npm install -D tailwindcss
 npx tailwindcss init
 npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
-npm i daisyui react-daisyui
+npm install daisyui react-daisyui
 npm install mdb-react-ui-kit
-
-
-# for dashboard
+npm install jwt-decode
 npm install postcss-nesting --save-dev
+npm install react-chat-engine-advanced prop-types
+npm install axios prop-types
+npm install buffer
+npm install crypto-browserify
+npm install bootstrap
+npm install redux
+npm install recharts
+npm install react-redux
 
 
-
-
-npm install react-slick slick-carousel
-npm install react-swipeable-views
-
+#run the front: npm run start 
 
 
 

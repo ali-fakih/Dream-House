@@ -16,7 +16,7 @@ const homePropertySchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["sell", "buy", "rent"],
+      enum: ["sell", "rent", "buy"],
       required: true,
     },
     image: [
@@ -52,6 +52,11 @@ const homePropertySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       // required: true,
+    },
+    Agent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Agent",
+      required: true,
     },
   },
   {

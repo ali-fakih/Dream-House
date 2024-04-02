@@ -1,0 +1,218 @@
+/* test.css */
+
+/* Basic styling */
+.home-properties-container {
+    margin-top: 7rem;
+    background: linear-gradient(75deg, rgb(130, 216, 151) 0%, rgb(64, 218, 87) 50%, rgba(60, 60, 60, 0.8) 100%);
+    padding: 2rem;
+    border-radius: 10px;
+    color: white; /* Setting text color to white */
+}
+
+/* Styles for animated effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply animated effects to child elements */
+.home-properties-container > * {
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 768px) {
+    .home-properties-container {
+        padding: 1rem;
+    }
+}
+
+/* Styles for images */
+.home-properties-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Styles for buttons */
+.btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Adjust button styles for different backgrounds */
+.home-properties-container .btn.btn-primary {
+    background-color: #007bff; /* Blue */
+}
+
+.home-properties-container .btn.btn-success {
+    background-color: #28a745; /* Green */
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+    background-color: #45a049; /* Darker green */
+}
+/*=============================================================================================*/
+/* Ask agents a question section */
+.chat-section{
+    border: 2px solid white;
+    text-align: center;
+    height: 250px;
+    border-radius: 30px 5px 30px 5px;
+}
+
+.chat-agent{
+    color:black;
+    font-style: italic;
+}
+
+/*==============================================================================================*/
+
+/* Decorative elements */
+.decorative-line {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 2rem 0;
+}
+
+.decorative-circle {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin: 1rem 0;
+}
+
+.decorative-square {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 1rem 0;
+}
+/* Define initial styles */
+.w-50 {
+    width: 50%;
+    margin: auto;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.text-dark {
+    color: #333;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.border {
+    border: 1px solid #28a745;
+}
+
+.rounded-lg {
+    border-radius: 0.3rem;
+}
+
+.w-25 {
+    width: 25%;
+}
+
+.h-25 {
+    height: 25%;
+}
+
+.rounded-circle {
+    border-radius: 50%;
+}
+
+.ml-4 {
+    margin-left: 1rem;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.3rem;
+    background-color: #28a745;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .w-50 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .w-100 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .w-75 {
+        width: 100%;
+    }
+}
+

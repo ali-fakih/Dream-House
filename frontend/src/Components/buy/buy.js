@@ -1,47 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../App.css';
 import { Link } from 'react-router-dom';
 import './buy.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faBars, faShare, faHome, faBuilding, faMoneyBill, faLocationCrosshairs, faLayerGroup, faHospital, faStairs, faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 
 const Buy = () => {
+    //  for home properties
     const [homeProperties, setHomeProperties] = useState([]);
+    const [showAll, setShowAll] = useState(false);
+    // for Real Estates properties
+    const [realEstates, setRealEstates] = useState([]);
+    const [showMore, setShowMore] = useState(false);
 
-    const [showForm, setShowForm] = useState(false);
-    const [filters, setFilters] = useState({
-        location: '',
-        propertyType: '',
-        minPrice: '',
-        maxPrice: '',
-        bedrooms: '',
-        bathrooms: ''
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFilters({
-            ...filters,
-            [name]: value
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Filters:', filters);
-        // You can add your logic here to submit the filters to backend or perform any action
-    };
-
-    // for showing the filters form
-    const handleFilterIconClick = () => {
-        setShowForm(!showForm);
-    };
-
-    const handleFilterShowing = (event) => {
-        event.preventDefault();
-        // Your form submission logic here
-    };
-
+    //  for home properties
     useEffect(() => {
         const fetchHomeProperties = async () => {
             try {
@@ -54,256 +25,286 @@ const Buy = () => {
 
         fetchHomeProperties();
     }, []);
+    //  for home properties
+    const toggleShowAll = () => {
+        setShowAll(!showAll);
+    };
+    //  for home properties
+    const displayDescription = (description) => {
+        // Limiting description to five to six words
+        return description.split(' ').slice(0, 6).join(' ') + '...';
+    };
+
+    // for real estate property
+    useEffect(() => {
+        const fetchRealEstates = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/realestate/getallrealstates');
+                setRealEstates(response.data);
+            } catch (error) {
+                console.error('Error fetching real estates:', error);
+            }
+        };
+
+        fetchRealEstates();
+    }, []);
+
+    //  for real estate property
+    const toggleShowMore = () => {
+        setShowMore(!showMore);
+    };
+
+
+
 
     return (
         <div className="buy">
 
-            {/* introduction and image */}
-            <div className="relative ml-8">
-                <div className="container px-3 mx-auto flex flex-col md:flex-row items-start md:items-center overflow-hidden">
-                    {/* <!--Left Col--> */}
-                    <div className="w-full md:w-3/5 py-6 pr-6 md:pr-12 mb-10 md:mb-0 ml-0 md:ml-20">
-                        <img className="w-full h-auto md:h-full md:w-4/5 z-50" src={require("../../Assets/images/slide-1.jpg")} alt="Activities for people with disabilities" />
-                    </div>
-                    {/* <!--Right Col--> */}
-                    <div className="flex flex-col w-full md:w-2/5 justify-center items-start mr-8 text-center md:text-left">
-                        <h1 className="my-4 text-3xl font-bold leading-tight text-darkGreen">
-                            Houses for sale near me
-                        </h1>
-                        <p className="leading-normal text-xl md:text-2xl mb-8 text-black">
-                            Find houses for sale near you. View photos, open house information, and property details for nearby real estate.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* location input and search button */}
-            <div className='buy-filter flex flex-row gap-4'>
-                <div className='buying-filters flex flex-row items-center'>
-                    {/* input and label Location */}
-                    <div className='input-location ml-20'>
-                        <label htmlFor="inputname" className="block text-gray-800 font-semibold text-lg">Location</label>
-                        <div className="mt-2 flex items-center">
-                            <input
-                                type="text"
-                                name="inputname"
-                                className="block w-80 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800"
-                                placeholder="City, Address, School, Agent"
-                            />
-                            {/* filter icons class */}
-                            <div className="relative">
-                                <div className='filter-icon text-darkGreen font-bold h-10 w-10 text-center ml-2' onClick={handleFilterIconClick}>
-                                    <FontAwesomeIcon icon={faBars} />
-                                </div>
-                                {showForm && (
-                                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-white border border-darkGreen rounded-lg p-4" style={{ width: '500px' }}>
-                                        <form onSubmit={handleFilterShowing} className="space-y-4">
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="location" className="block text-gray-700 font-semibold">Location</label>
-                                                    <input
-                                                        type="text"
-                                                        id="location"
-                                                        name="location"
-                                                        value={filters.location}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                        placeholder="City, Address, School, Agent"
-                                                    />
-                                                </div>
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="propertyType" className="block text-gray-700 font-semibold">Property Type</label>
-                                                    <select
-                                                        id="propertyType"
-                                                        name="propertyType"
-                                                        value={filters.propertyType}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                    >
-                                                        <option value="">Any</option>
-                                                        <option value="house">House</option>
-                                                        <option value="apartment">Apartment</option>
-                                                        <option value="condo">Condo</option>
-                                                    </select>
-                                                </div>
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="minPrice" className="block text-gray-700 font-semibold">Min Price</label>
-                                                    <input
-                                                        type="number"
-                                                        id="minPrice"
-                                                        name="minPrice"
-                                                        value={filters.minPrice}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                        placeholder="Min Price"
-                                                    />
-                                                </div>
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="maxPrice" className="block text-gray-700 font-semibold">Max Price</label>
-                                                    <input
-                                                        type="number"
-                                                        id="maxPrice"
-                                                        name="maxPrice"
-                                                        value={filters.maxPrice}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                        placeholder="Max Price"
-                                                    />
-                                                </div>
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="bedrooms" className="block text-gray-700 font-semibold">Bedrooms</label>
-                                                    <input
-                                                        type="number"
-                                                        id="bedrooms"
-                                                        name="bedrooms"
-                                                        value={filters.bedrooms}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                        placeholder="Bedrooms"
-                                                    />
-                                                </div>
-                                                <div className="border border-gray-300 rounded-lg p-2">
-                                                    <label htmlFor="bathrooms" className="block text-gray-700 font-semibold">Bathrooms</label>
-                                                    <input
-                                                        type="number"
-                                                        id="bathrooms"
-                                                        name="bathrooms"
-                                                        value={filters.bathrooms}
-                                                        onChange={handleInputChange}
-                                                        className="input-field"
-                                                        placeholder="Bathrooms"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <button type="submit" className=" flex bg-darkGreen text-white  border border-darkGreen rounded-lg p-4 m-auto text-center">Search</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                )}
+            {/* background image */}
+            <section className="header16 cid-u82pOOXhoP mbr-fullscreen mbr-parallax-background">
+                <div className="mbr-overlay" style={{ opacity: 0.3, backgroundColor: 'rgb(0, 0, 0)' }}></div>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="content-wrap col-12 col-md-10">
+                            <h1 className="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1">
+                                <strong>Dream Homes</strong>
+                            </h1>
+                            <p className="mbr-fonts-style mbr-text mbr-white mb-4 display-7">
+                                Find your perfect sanctuary among our stunning collection of houses and land.
+                            </p>
+                            <div className="mbr-section-btn">
+                                <Link to="/" className="btn btn-white-outline display-7">Search Now</Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-40 flex items-center justify-center cursor-pointer">
-                    <div className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold shadow text-black transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 dark:bg-gray-700 dark:text-white font-bold dark:hover:text-green-500 dark:shadow-none group">
-                        <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-green-500 group-hover:h-full"></span>
-                        <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" className="w-5 h-5 text-green-400">
-                                <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"></path>
-                            </svg>
-                        </span>
-                        <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" className="w-5 h-5 text-green-400">
-                                <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"></path>
-                            </svg>
-                        </span>
-                        <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white dark:group-hover:text-gray-200">Search</span>
+            </section>
+
+            {/* Home Property section */}
+            <section className="pricing02 cid-u82pOOY8Tm" id="product-list-8-u82pOOY8Tm">
+                <div className="container-fluid">
+                    <div className="row justify-content-center">
+                        <div className="col-12 content-head">
+                            <div className="mbr-section-head mb-5">
+                                <h4 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                                    <strong>Home Properties</strong>
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="BuyingCards-container">
-                <div className="BUY-cards">
-                    {homeProperties.map(property => (
-                        <section key={property._id} className="card-properties">
-                            <figure>
-                                <div className="img-overlay hot-home">
-
-                                    {property.image && property.image[0] && (
-                                        <img
-                                            src={`http://localhost:3000/${property.image[0].replace(
-                                                /\\/g,
-                                                "/"
-                                            )}`}
-                                            alt={property.image[0]}
-                                        />
-                                    )}
-
-                                    <div className="overlay">
-                                        <Link to="/properties">
-                                            view property
-                                        </Link>
+                    <div className="row">
+                        {homeProperties.slice(0, showAll ? homeProperties.length : 4).map(property => (
+                            <div className="item features-image col-12 col-md-6 col-lg-3" key={property.id}>
+                                <div className="item-wrapper">
+                                    <div className="item-img">
+                                        {property.image && property.image[0] && (
+                                            <img
+                                                src={`http://localhost:3000/${property.image[0].replace(/\\/g, "/")}`}
+                                                alt={property.image[0]}
+                                            />
+                                        )}
                                     </div>
-                                    <div className="cont">
-                                        <div className="icons-img">
-                                            <button><i><FontAwesomeIcon icon={faHeart} /></i></button>
-                                            <button><i><FontAwesomeIcon icon={faShare} /></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <figcaption>{property.title}</figcaption>
-                            </figure>
-                            <div className="card-content">
-                                <p>{property.description}</p>
-                                <section className="icons-home">
-                                    <div className="name-icon">
-                                        <span>rooms</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faHospital} /></i>
-                                            <span>{property.rooms}</span>
-                                        </div>
-                                    </div>
-                                    <div className="name-icon">
-                                        <span>floor</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faStairs} /></i>
-                                            <span>{property.floor}</span>
-                                        </div>
-                                    </div>
-                                    <div className="name-icon">
-                                        <span>area</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faVectorSquare} /></i>
-                                            <span>{property.areaSize}</span>
-                                        </div>
-                                    </div>
-                                </section>
-                                <section className="icons-home">
-                                    <div className="name-icon">
-                                        <span>style</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faHome} /></i>
-                                            <span>{property.style}</span>
-                                        </div>
-                                    </div>
-                                    <div className="name-icon">
-                                        <span>type</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faBuilding} /></i>
-                                            <span>{property.type}</span>
-                                        </div>
-                                    </div>
-                                    <div className="name-icon">
-                                        <span>build year</span>
-                                        <div className="icon">
-                                            <i><FontAwesomeIcon icon={faLayerGroup} /></i>
-                                            <span>{property.buildYear}</span>
-                                        </div>
-                                    </div>
-                                </section>
-                                <div className='flex flex-row gap-20'>
-                                    <section className="price">
-                                        <span>for sale</span><br></br>
-                                        <span>
-                                            <i><FontAwesomeIcon icon={faMoneyBill} /></i>
+                                    <div className="item-content">
+                                        <h5 className="item-title mbr-fonts-style display-5">
+                                            <strong>{property.title}</strong>
+                                        </h5>
+                                        <h6 className="item-subtitle mbr-fonts-style display-7">
                                             ${property.price}
-                                        </span>
-                                    </section>
-                                    <section className="location">
-                                        <span>Location</span><br></br>
-                                        <span>
-                                            <i><FontAwesomeIcon icon={faLocationCrosshairs} /></i>
-                                            {property.location}
-                                        </span>
-                                    </section>
+                                        </h6>
+                                        <p className="mbr-text mbr-fonts-style display-7">
+                                            {displayDescription(property.description)}
+                                        </p>
+                                        <div className="mbr-section-btn item-footer">
+                                            <Link to={`/properties/${property._id}`} className="btn item-btn btn-primary display-7">
+                                                View Details
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </section>
-                    ))}
+                        ))}
+                    </div>
+                    {homeProperties.length > 4 && (
+                        <div className="see-btn row justify-content-center mt-4">
+                            <div className="col-6"> {/* Change col-6 to adjust width */}
+                                <button className="btn btn-primary w-100" onClick={toggleShowAll}>
+                                    {showAll ? 'Show Less' : 'See More'}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+            </section>
+
+            {/* Real Estate Property section */}
+            <section className="features03 cid-u6kSenxwTx" id="events-1-u6kSenxwTx">
+                <div className="container-fluid">
+
+                    <div className="row justify-content-center mb-5">
+                        <div className="col-12 content-head">
+                            <div className="mbr-section-head">
+                                <h4 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                                    <strong>Lands Properties</strong>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {realEstates.slice(0, showMore ? realEstates.length : 4).map(realproperty => (
+
+                            <div className="item features-image col-12 col-md-6 col-lg-3 active" key={realproperty.id}>
+                                <div className="item-wrapper">
+                                    <div className="item-img mb-3">
+                                        {realproperty.images && realproperty.images[0] && (
+                                            <img
+                                                src={`http://localhost:3000/${realproperty.images[0].replace(/\\/g, "/")}`}
+                                                alt={realproperty.images[0]}
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="item-content align-left">
+                                        <h6 className="item-subtitle mbr-fonts-style mb-3 fw-bold display-5">
+                                            <strong>
+                                                {realproperty.name}
+                                            </strong>
+                                        </h6>
+                                        <p className="mbr-text mbr-fonts-style mb-3 display-7">
+                                            ${realproperty.amount}
+                                        </p>
+                                        <p className="mbr-text mbr-fonts-style mb-3 display-7">
+                                            {displayDescription(realproperty.description)}
+                                        </p>
+                                        <div className="mbr-section-btn item-footer">
+                                            <Link to={`/realestateproperty/${realproperty._id}`} className="btn item-btn btn-primary display-7">
+                                                View Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {realEstates.length > 4 && (
+                        <div className="see-btn row justify-content-center mt-4">
+                            <div className="col-6"> {/* Change col-6 to adjust width */}
+                                <button className="btn btn-primary w-100" onClick={toggleShowMore}>
+                                    {showMore ? 'Show Less' : 'See More'}
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                 </div>
-            </div>
+            </section>
+
+            {/* third section */}
+            <section className="features21 cid-u82pOOY2w3" id="features-4-u82pOOY2w3">
+                <div className="container">
+                    <div className="row mbr-masonry" data-masonry='{"percentPosition": true }'>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1605276374104-dee2a0ed3cd6.jpeg")} alt="Spacious" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Spacious</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        Generous living areas designed for comfort and entertainment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1448630360428-65456885c650.jpeg")} alt="Scenic Views" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Scenic Views</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        Panoramic vistas that will take your breath away every day.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1503174971373-b1f69850bded.jpeg")} alt="Modern Amenities" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Modern Amenities</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        State-of-the-art facilities to enhance your lifestyle to the fullest.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1494526585095-c41746248156.jpeg")} alt="Tranquil Surroundings" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Tranquil Surroundings</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        Peaceful environments that soothe the soul and calm the mind.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1582268611958-ebfd161ef9cf.jpeg")} alt="Prime Locations" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Prime Locations</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        Strategically situated properties in sought-after neighborhoods for convenience.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="item features-without-image col-12 col-md-6 col-lg-4">
+                            <div className="item-wrapper">
+                                <div className="card-box align-left">
+                                    <div className="img-wrapper mb-3">
+                                        <img src={require("../../Assets/images/photo-1572120360610-d971b9d7767c.jpeg")} alt="Luxurious Finishes" />
+                                    </div>
+                                    <h5 className="card-title mbr-fonts-style display-5">
+                                        <strong>Luxurious Finishes</strong>
+                                    </h5>
+                                    <p className="card-text mbr-fonts-style display-7">
+                                        Exquisite details and high-end finishes that exude opulence and sophistication.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
 
         </div>
     );
