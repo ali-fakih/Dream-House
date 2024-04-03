@@ -52,6 +52,9 @@ function App() {
           <Route
             path="/reset-password/:userId/:token"
             element={<ResetPassword />}/>
+
+
+
           <Route path="*" element={<NotFound />} />
 
           <Route path="/buy" element={<BuyPage />} />

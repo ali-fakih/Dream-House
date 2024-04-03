@@ -394,8 +394,8 @@ exports.Payments = async (req, res) => {
           quantity: item.quantity,
         };
       }),
-      success_url: "http://localhost:3001/home",
-      cancel_url: "http://localhost:3001/",
+      success_url: "http://localhost:3001/",
+      cancel_url: "http://localhost:3001/*",
     });
     res.json({ url: session.url });
   } catch (error) {

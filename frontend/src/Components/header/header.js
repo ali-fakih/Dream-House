@@ -6,6 +6,7 @@ import './header.css';
 const Header = () => {
     const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // eslint-disable-next-line
     const [scrollPosition, setScrollPosition] = useState(0);
     const headerRef = React.createRef();
     const [showMenu, setShowMenu] = useState(false); // State for menu visibility

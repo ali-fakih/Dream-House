@@ -70,43 +70,35 @@ const AgentPage = () => {
                                 </Card.Body>
                             </Card>
                             {/* Place the section here */}
-                            <section className="list1 cid-u6kSenxY0V" id="faq-1-u6kSenxY0V">
-                                <div className="container">
-                                    <div className="row justify-content-center">
-                                        <div className="col-12 col-md-12 col-lg-10 m-auto">
-                                            <div className="content">
-                                                <div className="mbr-section-head align-left mb-5">
-                                                    <h3 className="mbr-section-title mb-2 mbr-fonts-style display-2">
-                                                        <strong>Services</strong>
-                                                    </h3>
-                                                </div>
-                                                <div id="bootstrap-accordion_0" className="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">
-                                                    {accordionData.map((item, index) => (
-                                                        <div className="card mb-3" key={index}>
-                                                            <div className="card-header" role="tab" id={`headingOne_${index}`}>
-                                                                <Link
-                                                                    role="button"
-                                                                    className={`panel-title ${activeIndex === index ? '' : 'collapsed'}`}
-                                                                    onClick={() => toggleAccordion(index)}
-                                                                >
-                                                                    <h6 className="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">{item.title}</h6>
-                                                                    <span className="sign mbr-iconfont mobi-mbri-arrow-down"></span>
-                                                                </Link>
-                                                            </div>
-                                                            <div
-                                                                id={`collapse_${index}`}
-                                                                className={`panel-collapse noScroll collapse ${activeIndex === index ? 'show' : ''}`}
-                                                                role="tabpanel"
-                                                                aria-labelledby={`headingOne_${index}`}
-                                                            >
-                                                                <div className="panel-body">
-                                                                    <p className="mbr-fonts-style panel-text display-7">{item.content}</p>
-                                                                </div>
-                                                            </div>
+                            <section className="py-12 w-full mx-auto text-white bg-gray-100">
+                                <div className="container mx-auto">
+                                    <div className="flex flex-col items-center">
+                                        <h3 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-bold text-darkGreen rounded-full px-4 py-2 inline-block">Services</h3>
+                                        <div id="bootstrap-accordion_0" className="accordion border-none w-full max-w-4xl" role="tablist" aria-multiselectable="true">
+                                            {accordionData.map((item, index) => (
+                                                <div className="rounded-full mb-3 w-full" key={index}>
+                                                    <div className="rounded-full shadow-lg w-full" role="tab" id={`headingOne_${index}`}>
+                                                        <Link
+                                                            role="button"
+                                                            className={`flex justify-center items-center rounded-full w-full py-4 px-6 bg-white text-black duration-300 ${activeIndex === index ? '' : 'collapsed'}`}
+                                                            onClick={() => toggleAccordion(index)}
+                                                            style={{ textDecoration: 'none', fontWeight: activeIndex === index ? 'bold' : 'normal' }}
+                                                        >
+                                                            <h6 className="mb-0 text-2xl md:text-3xl text-center w-full hover:text-black">{item.title}</h6>
+                                                        </Link>
+                                                    </div>
+                                                    <div
+                                                        id={`collapse_${index}`}
+                                                        className={`overflow-hidden w-full transition-all duration-300 ${activeIndex === index ? 'max-h-screen' : 'max-h-0'}`}
+                                                        role="tabpanel"
+                                                        aria-labelledby={`headingOne_${index}`}
+                                                    >
+                                                        <div className="p-6 bg-white rounded-b-lg text-gray-800">
+                                                            <p className="text-lg md:text-xl text-center w-full mb-1 text-darkGreen">{item.content}</p>
                                                         </div>
-                                                    ))}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
