@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { message } from "antd";
@@ -50,7 +51,7 @@ function HousesBodyA() {
   const fetchAgentUsers = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/paidUser/getPaidbyAgentID/${agentId}`
+        `${API_URL}/paidUser/getPaidbyAgentID/${agentId}`
       );
 
       setUsers(response.data); // Set the users related to the agent
@@ -66,7 +67,7 @@ function HousesBodyA() {
   const fetchAgent = useCallback(async () => {
     try {
       const agentResponse = await axios.get(
-        `http://localhost:3000/agents/agents/reference/${userId}`
+        `${API_URL}/agents/agents/reference/${userId}`
       );
       setAgentId(agentResponse.data._id);
       // alert(JSON.stringify(agentResponse.data));
@@ -84,7 +85,7 @@ function HousesBodyA() {
       setLoading(true);
 
       const response = await axios.get(
-        `http://localhost:3000/homeProperty/getBYAgentID/${agentId}`
+        `${API_URL}/homeProperty/getBYAgentID/${agentId}`
       );
       // alert(JSON.stringify(userId));
       setHouses(response.data);
@@ -171,7 +172,7 @@ function HousesBodyA() {
       // Set the Agent field to agentId
       formData.append("Agent", agentId);
       const response = await axios.post(
-        "http://localhost:3000/homeProperty/addhomeProperties",
+        `${API_URL}/homeProperty/addhomeProperties`,
         formData,
         {
           headers: {
@@ -314,9 +315,9 @@ function HousesBodyA() {
                     <div className="w-full h-40 bg-green-600 rounded-2xl">
                       {house.image[0] && (
                         <img
-                          src={`http://localhost:3000/${house.image[0].replace(
+                          src={`${API_URL}/${house.image[0].replace(
                             /\\/g,
-                            "/"
+                            `/"
                           )}`}
                           alt={house.image[0]}
                           className="w-full h-full rounded-2xl"

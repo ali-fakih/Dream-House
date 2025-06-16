@@ -1,0 +1,46 @@
+services:
+  # Backend API service
+  - type: web
+    name: dreamhouse-api
+    runtime: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: AUTH_EMAIL
+        sync: false
+      - key: Auth_PASS
+        sync: false
+      - key: APP_BASE_URL
+        fromService:
+          type: web
+          name: dreamhouse-frontend
+          property: url
+      - key: RESET_PASSWORD_KEY
+        sync: false
+      - key: SECRET_STRIPE_KEY
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+      - key: CHAT_ENGINE_PRIVATE_KEY
+        sync: false
+
+  # Frontend application
+  - type: web
+    name: dreamhouse-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: dreamhouse-api
+          property: url

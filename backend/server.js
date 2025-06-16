@@ -19,7 +19,7 @@ const usersPaid = require("./routes/PayUsersRoutes");
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: process.env.NODE_ENV === 'production' ? '*' : "http://localhost:3001",
     credentials: true,
   })
 );

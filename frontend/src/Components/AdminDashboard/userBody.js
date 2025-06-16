@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBriefcase,
@@ -43,7 +44,7 @@ function UserBody() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users/Getusers");
+      const response = await axios.get(`${API_URL}/users/Getusers`);
       setUsers(response.data);
       setLoading(false);
     } catch (error) {
@@ -88,7 +89,7 @@ function UserBody() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        `${API_URL}/users/register`,
         {
           username: username,
           email,
@@ -125,7 +126,7 @@ function UserBody() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/users/updateuserbyid/${selectedUser._id}`,
+        `${API_URL}/users/updateuserbyid/${selectedUser._id}`,
         updatedUserData
       );
 
@@ -156,7 +157,7 @@ function UserBody() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:3000/users/deleteuserbyid/${selectedUser._id}`
+        `${API_URL}/users/deleteuserbyid/${selectedUser._id}`
       );
 
       if (response.status === 200) {
@@ -194,7 +195,7 @@ function UserBody() {
   const fetchAgents = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/agents/getallagents"
+        `${API_URL}/agents/getallagents`
       );
       setAgents(response.data);
       setFilteredAgents(response.data); // Set filteredAgents initially to all agents
@@ -409,9 +410,9 @@ function UserBody() {
                     <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
                       <div className="img_container w-full flex items-center justify-center relative z-40 after:absolute after:h-[6px] after:w-full after:bg-[#00a716] after:top-4 after:group-hover:size-[1%] after:delay-300 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-300 after:transition-all after:duration-300 before:absolute before:h-[6px] before:w-full before:bg-[#00a716] before:bottom-4 before:group-hover:size-[1%] before:delay-300 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-300 before:transition-all before:duration-300">
                         <img
-                          src={`http://localhost:3000/${agent.image.replace(
+                          src={`${API_URL}/${agent.image.replace(
                             /\\/g,
-                            "/"
+                            `/"
                           )}`}
                           alt={agent.fullName}
                           className="size-36 z-40 border-4 border-white rounded-full"

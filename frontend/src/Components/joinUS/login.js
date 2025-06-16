@@ -6,6 +6,7 @@ import { message } from "antd";
 import axios from "axios";
 import { loginSuccess } from "../../data/action";
 import { useDispatch } from "react-redux";
+import API_URL from "../../config/api";
 
 import { useNavigate } from "react-router-dom";
 function Login() {
@@ -25,7 +26,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/users/login", {
+      const response = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
       });

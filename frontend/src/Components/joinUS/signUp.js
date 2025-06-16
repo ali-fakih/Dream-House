@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { message } from "antd";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +18,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        `${API_URL}/users/register`,
         {
           username: username,
           email,

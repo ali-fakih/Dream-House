@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
+import API_URL from '../../config/api';
 import '../../App.css';
 import EmblaCarousel from 'embla-carousel';
 import { Link, useNavigate } from 'react-router-dom';
@@ -65,7 +66,7 @@ function About() {
 
     const initiateCheckout = async (items) => {
         try {
-            const response = await axios.post('http://localhost:3000/users/checkout', {
+            const response = await axios.post(`${API_URL}/users/checkout`, {
                 items: items
             });
             // Set the URL received from the backend in the state

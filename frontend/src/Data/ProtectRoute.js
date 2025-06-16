@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import API_URL from '../config/api';
 import "./stylePr.css";
 
 const ProtectedRoute = ({ children }) => {
@@ -32,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
     try {
       const refreshToken = getRefreshTokenFromCookie();
       const response = await axios.post(
-        "http://localhost:3000/users/refresh-token",
+        `${API_URL}/users/refresh-token`,
         { refreshToken },
         {
           headers: {

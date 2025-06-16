@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useNavigate } from "react-router-dom";
@@ -28,7 +29,7 @@ const HouseProperty = () => {
     const fetchHouse = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/homeProperty/GethomeProperties/${id}`
+          `${API_URL}/homeProperty/GethomeProperties/${id}`
         );
         setHouse(response.data);
         setFormData(response.data); // Populate form data
@@ -46,7 +47,7 @@ const HouseProperty = () => {
       if (formData && formData.userRef) {
         try {
           const response = await axios.get(
-            `http://localhost:3000/users/getuserbyid/${formData.userRef}`
+            `${API_URL}/users/getuserbyid/${formData.userRef}`
           );
 
           // Check if the response contains the email field
@@ -72,7 +73,7 @@ const HouseProperty = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://localhost:3000/homeProperty/UpdatehomeProperties/${id}`,
+        `${API_URL}/homeProperty/UpdatehomeProperties/${id}`,
         formData
       );
       message.success("Property Updated successfully");
@@ -86,7 +87,7 @@ const HouseProperty = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/homeProperty/DeletehomeProperties/${id}`
+        `${API_URL}/homeProperty/DeletehomeProperties/${id}`
       );
       if (response.status === 200) {
         message.success("Deleted successfully");
@@ -343,7 +344,7 @@ const HouseProperty = () => {
             <div key={index}>
               {imageUrl && ( // Add a conditional check for imageUrl
                 <img
-                  src={`http://localhost:3000/${imageUrl.replace(/\\/g, "/")}`}
+                  src={`${API_URL}/${imageUrl.replace(/\\/g, `/")}`}
                   alt={`House ${index + 1}`}
                   className="w-full h-40 rounded-2xl"
                 />

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { Link } from "react-router-dom";
 import { message } from "antd";
 import { useSelector } from "react-redux";
@@ -38,7 +39,7 @@ function RealEstate() {
   const fetchAgentUsers = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/paidUser/getPaidbyAgentID/${agentId}`
+        `${API_URL}/paidUser/getPaidbyAgentID/${agentId}`
       );
 
       setUsers(response.data); // Set the users related to the agent
@@ -54,7 +55,7 @@ function RealEstate() {
   const fetchHouses = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/realestate/getBYagent/${agentId}`
+        `${API_URL}/realestate/getBYagent/${agentId}`
       );
       setRealEstate(response.data);
 
@@ -130,7 +131,7 @@ function RealEstate() {
 
       formData.append("userAgent", agentId);
       const response = await axios.post(
-        "http://localhost:3000/realestate/addrealestate",
+        `${API_URL}/realestate/addrealestate`,
         formData,
         {
           headers: {
@@ -256,9 +257,9 @@ function RealEstate() {
                     <div className="w-full h-40 bg-green-600 rounded-2xl">
                       {realestate.images[0] && (
                         <img
-                          src={`http://localhost:3000/${realestate.images[0].replace(
+                          src={`${API_URL}/${realestate.images[0].replace(
                             /\\/g,
-                            "/"
+                            `/"
                           )}`}
                           alt={realestate.images[0]}
                           className="w-full h-full rounded-2xl"

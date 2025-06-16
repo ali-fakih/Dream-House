@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../../config/api';
 import '../../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import './agent.css';
@@ -36,7 +37,7 @@ function Agent() {
 
     // for agent
     useEffect(() => {
-        axios.get('http://localhost:3000/agents/getallagents')
+        axios.get(`${API_URL}/agents/getallagents`)
             .then(response => {
                 setAgents(response.data);
             })
@@ -56,7 +57,7 @@ function Agent() {
 
     const initiateCheckout = async (items) => {
         try {
-            const response = await axios.post('http://localhost:3000/users/checkout', {
+            const response = await axios.post(`${API_URL}/users/checkout`, {
                 items: items
             });
             // Set the URL received from the backend in the state
@@ -146,9 +147,9 @@ function Agent() {
                                 <div className="item-wrapper">
                                     <div className="item-img">
                                         <img
-                                            src={`http://localhost:3000/${agent.image.replace(
+                                            src={`${API_URL}/${agent.image.replace(
                                                 /\\/g,
-                                                "/"
+                                                `/"
                                             )}`}
                                             alt={agent.fullName}
 

@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { message } from "antd";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
@@ -42,7 +43,7 @@ function DashboardAgent() {
   const handleLogout = async () => {
     try {
       // Make a request to logout endpoint
-      const response = await axios.post("http://localhost:3000/users/logout");
+      const response = await axios.post(`${API_URL}/users/logout`);
 
       if (response.status === 200) {
         // Clear cookies
@@ -67,7 +68,7 @@ function DashboardAgent() {
   const fetchAgentData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/agents/agents/reference/${userId}`
+        `${API_URL}/agents/agents/reference/${userId}`
       );
       setAgentINFo(response.data);
       fetchAgentData();
@@ -176,7 +177,7 @@ function DashboardAgent() {
               </i>
             </div>
             <img
-              src={`http://localhost:3000/${agentINFo.image}`}
+              src={`${API_URL}/${agentINFo.image}`}
               width={"40px"}
               height={"40px"}
               alt="profile img"

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import API_URL from '../../config/api';
 import "./resetStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -33,7 +34,7 @@ function ResetPassword() {
 
       // Make an API request to reset the password
       const response = await axios.post(
-        `http://localhost:3000/users/reset-password/${userId}/${token}`,
+        `${API_URL}/users/reset-password/${userId}/${token}`,
         {
           password,
           confirmPassword,

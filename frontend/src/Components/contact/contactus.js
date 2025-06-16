@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../App.css';
 import axios from 'axios';
+import API_URL from '../../config/api';
 import './contactus.css';
 
 function ContactUS() {
@@ -34,7 +35,7 @@ function ContactUS() {
       }
 
       // Send email using the API
-      await axios.post('http://localhost:3000/users/send-email', formData);
+      await axios.post(`${API_URL}/users/send-email`, formData);
 
       // Reset form after successful submission
       setFormData({

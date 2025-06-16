@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../data/action";
 import { message } from "antd";
 import axios from "axios";
+import API_URL from '../../config/api';
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +25,7 @@ function ProfilePage() {
   const fetchAgentData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/agents/agents/reference/${userId}`
+        `${API_URL}/agents/agents/reference/${userId}`
       );
       setAgent(response.data);
       dispatch(
@@ -105,7 +106,7 @@ function ProfilePage() {
         formData.append("image", agentData.image);
       }
 
-      await axios.post("http://localhost:3000/agents/addagent", formData, {
+      await axios.post(`${API_URL}/agents/addagent`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -139,7 +140,7 @@ function ProfilePage() {
       }
 
       await axios.put(
-        `http://localhost:3000/agents/updateagent/${agent._id}`,
+        `${API_URL}/agents/updateagent/${agent._id}`,
         formData,
         {
           headers: {
@@ -173,7 +174,7 @@ function ProfilePage() {
         <div>
           <div className="w-24 h-24 ml-3 bg-gray-400 rounded-full overflow-hidden">
             <img
-              src={`http://localhost:3000/${agent.image}`}
+              src={`${API_URL}/${agent.image}`}
               alt={agent.image}
               className="w-full h-full object-cover"
             />

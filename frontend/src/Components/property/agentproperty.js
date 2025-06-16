@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../../config/api';
 import { Link, useParams } from 'react-router-dom';
 import '../../App.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
@@ -38,7 +39,7 @@ const AgentPage = () => {
     ];
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/agents/getagentbyid/${agentId}`)
+        axios.get(`${API_URL}/agents/getagentbyid/${agentId}`)
             .then(response => {
                 setAgent(response.data);
             })
@@ -107,9 +108,9 @@ const AgentPage = () => {
                         <Col md={6}>
                             <div className="agent-details">
                                 <div className="agent-image">
-                                    <img src={`http://localhost:3000/${agent.image.replace(
+                                    <img src={`${API_URL}/${agent.image.replace(
                                         /\\/g,
-                                        "/"
+                                        `/"
                                     )}`}
                                         alt={agent.fullName}
                                     />

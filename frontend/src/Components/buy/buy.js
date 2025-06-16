@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../../config/api';
 import '../../App.css';
 import { Link } from 'react-router-dom';
 import './buy.css';
@@ -16,7 +17,7 @@ const Buy = () => {
     useEffect(() => {
         const fetchHomeProperties = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/homeProperty/GethomeProperties');
+                const response = await axios.get(`${API_URL}/homeProperty/GethomeProperties`);
                 setHomeProperties(response.data);
             } catch (error) {
                 console.error('Error fetching home properties:', error);
@@ -39,7 +40,7 @@ const Buy = () => {
     useEffect(() => {
         const fetchRealEstates = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/realestate/getallrealstates');
+                const response = await axios.get(`${API_URL}/realestate/getallrealstates`);
                 setRealEstates(response.data);
             } catch (error) {
                 console.error('Error fetching real estates:', error);
@@ -99,7 +100,7 @@ const Buy = () => {
                                     <div className="item-img">
                                         {property.image && property.image[0] && (
                                             <img
-                                                src={`http://localhost:3000/${property.image[0].replace(/\\/g, "/")}`}
+                                                src={`${API_URL}/${property.image[0].replace(/\\/g, `/")}`}
                                                 alt={property.image[0]}
                                             />
                                         )}
@@ -159,7 +160,7 @@ const Buy = () => {
                                     <div className="item-img mb-3">
                                         {realproperty.images && realproperty.images[0] && (
                                             <img
-                                                src={`http://localhost:3000/${realproperty.images[0].replace(/\\/g, "/")}`}
+                                                src={`${API_URL}/${realproperty.images[0].replace(/\\/g, `/")}`}
                                                 alt={realproperty.images[0]}
                                             />
                                         )}

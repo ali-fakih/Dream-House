@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { message } from "antd";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
@@ -60,7 +61,7 @@ function DashboardAdmin() {
   const handleLogout = async () => {
     try {
       // Make a request to logout endpoint
-      const response = await axios.post("http://localhost:3000/users/logout");
+      const response = await axios.post(`${API_URL}/users/logout`);
 
       if (response.status === 200) {
         // Clear cookies

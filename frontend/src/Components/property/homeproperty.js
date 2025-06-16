@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import API_URL from '../../config/api';
 import '../../App.css';
 import './property.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,11 +26,11 @@ function HomeProperty() {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const propertyResponse = await axios.get(`http://localhost:3000/homeProperty/GethomeProperties/${propertyId}`);
+                const propertyResponse = await axios.get(`${API_URL}/homeProperty/GethomeProperties/${propertyId}`);
                 setProperty(propertyResponse.data);
 
                 if (propertyResponse.data.Agent) {
-                    const agentResponse = await axios.get(`http://localhost:3000/agents/getagentbyid/${propertyResponse.data.Agent._id}`);
+                    const agentResponse = await axios.get(`${API_URL}/agents/getagentbyid/${propertyResponse.data.Agent._id}`);
                     setAgent(agentResponse.data);
                 }
             } catch (error) {
@@ -66,7 +67,7 @@ function HomeProperty() {
                 <div className="d-flex justify-content-center align-items-center mt-4">
                     {property.image && property.image[0] && (
                         <img
-                            src={`http://localhost:3000/${property.image[0].replace(/\\/g, "/")}`}
+                            src={`${API_URL}/${property.image[0].replace(/\\/g, `/")}`}
                             alt={property.title}
                             className="h-96 mr-2 w-75 rounded-lg"
                         />
@@ -74,14 +75,14 @@ function HomeProperty() {
                     <div className="d-flex flex-column justify-content-between h-96">
                         {property.image && property.image[1] && (
                             <img
-                                src={`http://localhost:3000/${property.image[1].replace(/\\/g, "/")}`}
+                                src={`${API_URL}/${property.image[1].replace(/\\/g, `/")}`}
                                 alt={property.title}
                                 className="h-50 mb-2 rounded-lg"
                             />
                         )}
                         {property.image && property.image[2] && (
                             <img
-                                src={`http://localhost:3000/${property.image[2].replace(/\\/g, "/")}`}
+                                src={`${API_URL}/${property.image[2].replace(/\\/g, `/")}`}
                                 alt={property.title}
                                 className="h-50 rounded-lg"
                             />
@@ -159,7 +160,7 @@ function HomeProperty() {
                 <div className="w-50 d-flex justify-content-end">
                     {property.image && property.image[0] && (
                         <img
-                            src={`http://localhost:3000/${property.image[0].replace(/\\/g, "/")}`}
+                            src={`${API_URL}/${property.image[0].replace(/\\/g, `/")}`}
                             alt={property.title}
                             className="h-100 rounded-lg w-60"
                         />
@@ -178,9 +179,9 @@ function HomeProperty() {
                         <h4 className="text-lg font-weight-bold">Listed by {agent.fullName} :</h4>
                         <div className="d-flex justify-content-between align-items-center my-4 p-3 border border-success rounded-lg w-50">
                             <img
-                                src={`http://localhost:3000/${agent.image.replace(
+                                src={`${API_URL}/${agent.image.replace(
                                     /\\/g,
-                                    "/"
+                                    `/"
                                 )}`}
                                 alt={agent.fullName}
                                 className="w-25 h-25 rounded-circle"

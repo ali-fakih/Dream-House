@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../App.css';
 import { Link } from 'react-router-dom';
+import API_URL from '../../config/api';
 
 import './homepage.css';
 
@@ -40,7 +41,7 @@ function Homepage() {
     ];
 
     useEffect(() => {
-        axios.get('http://localhost:3000/agents/getallagents')
+        axios.get(`${API_URL}/agents/getallagents`)
             .then(response => {
                 // Limiting to only four agents
                 const limitedAgents = response.data.slice(0, 4);

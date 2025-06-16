@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import API_URL from '../../config/api';
 import { Link } from "react-router-dom";
 import { message } from "antd";
 function HousesBody() {
@@ -44,7 +45,7 @@ function HousesBody() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users/Getusers");
+      const response = await axios.get(`${API_URL}/users/Getusers`);
 
       setUsers(response.data);
       setLoading(false);
@@ -61,7 +62,7 @@ function HousesBody() {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:3000/homeProperty/GethomeProperties"
+        `${API_URL}/homeProperty/GethomeProperties`
       );
       setHouses(response.data);
       setLoading(false);
@@ -74,7 +75,7 @@ function HousesBody() {
     const fetchAgents = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/agents/getallagents"
+          `${API_URL}/agents/getallagents`
         );
         setAgentOptions(response.data);
       } catch (error) {
@@ -152,7 +153,7 @@ function HousesBody() {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/homeProperty/addhomeProperties",
+        `${API_URL}/homeProperty/addhomeProperties`,
         formData,
         {
           headers: {
@@ -285,9 +286,9 @@ function HousesBody() {
               <div className="w-full h-40 bg-green-600 rounded-2xl">
                 {house.image[0] && (
                   <img
-                    src={`http://localhost:3000/${house.image[0].replace(
+                    src={`${API_URL}/${house.image[0].replace(
                       /\\/g,
-                      "/"
+                      `/"
                     )}`}
                     alt={house.image[0]}
                     className="w-full h-full rounded-2xl"

@@ -67,6 +67,7 @@ router.get(
   userController.showVerifiedPage
 );
 router.post("/verify-password", userController.verifyPassword);
+
 // Route for sending email in the contact us page
 router.post("/send-email", userController.sendEmail);
 module.exports = router;
