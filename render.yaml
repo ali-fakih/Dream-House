@@ -19,10 +19,7 @@ services:
       - key: Auth_PASS
         sync: false
       - key: APP_BASE_URL
-        fromService:
-          type: web
-          name: dreamhouse-frontend
-          property: url
+        value: https://dreamhouse-frontend.onrender.com/
       - key: RESET_PASSWORD_KEY
         sync: false
       - key: SECRET_STRIPE_KEY
@@ -40,7 +37,4 @@ services:
     staticPublishPath: ./frontend/build
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: dreamhouse-api
-          property: url
+        value: https://dreamhouse-api.onrender.com
