@@ -147,10 +147,7 @@ function Agent() {
                                 <div className="item-wrapper">
                                     <div className="item-img">
                                         <img
-                                            src={`${API_URL}/${agent.image.replace(
-                                                /\\/g,
-                                                `/"
-                                            )}`}
+                                            src={`${API_URL}/${agent.image.replace(/\\/g, '/')}`}
                                             alt={agent.fullName}
 
                                         />

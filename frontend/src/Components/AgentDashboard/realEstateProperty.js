@@ -251,7 +251,7 @@ const RealEstateProperty = () => {
             <div key={index}>
               {imageUrl && ( // Add a conditional check for imageUrl
                 <img
-                  src={`${API_URL}/${imageUrl.replace(/\\/g, `/")}`}
+                  src={`${API_URL}/${imageUrl.replace(/\\/g, '/')}`}
                   alt={`House ${index + 1}`}
                   className="w-full h-40 rounded-2xl"
                 />

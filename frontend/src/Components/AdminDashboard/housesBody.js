@@ -286,10 +286,7 @@ function HousesBody() {
               <div className="w-full h-40 bg-green-600 rounded-2xl">
                 {house.image[0] && (
                   <img
-                    src={`${API_URL}/${house.image[0].replace(
-                      /\\/g,
-                      `/"
-                    )}`}
+                    src={`${API_URL}/${house.image[0].replace(/\\/g, '/')}`}
                     alt={house.image[0]}
                     className="w-full h-full rounded-2xl"
                   />

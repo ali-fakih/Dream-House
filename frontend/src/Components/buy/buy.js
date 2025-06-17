@@ -100,7 +100,7 @@ const Buy = () => {
                                     <div className="item-img">
                                         {property.image && property.image[0] && (
                                             <img
-                                                src={`${API_URL}/${property.image[0].replace(/\\/g, `/")}`}
+                                                src={`${API_URL}/${property.image[0].replace(/\\/g, '/')}`}
                                                 alt={property.image[0]}
                                             />
                                         )}
@@ -160,7 +160,7 @@ const Buy = () => {
                                     <div className="item-img mb-3">
                                         {realproperty.images && realproperty.images[0] && (
                                             <img
-                                                src={`${API_URL}/${realproperty.images[0].replace(/\\/g, `/")}`}
+                                                src={`${API_URL}/${realproperty.images[0].replace(/\\/g, '/')}`}
                                                 alt={realproperty.images[0]}
                                             />
                                         )}

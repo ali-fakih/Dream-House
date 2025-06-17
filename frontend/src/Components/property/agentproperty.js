@@ -108,10 +108,8 @@ const AgentPage = () => {
                         <Col md={6}>
                             <div className="agent-details">
                                 <div className="agent-image">
-                                    <img src={`${API_URL}/${agent.image.replace(
-                                        /\\/g,
-                                        `/"
-                                    )}`}
+                                    <img 
+                                        src={`${API_URL}/${agent.image.replace(/\\/g, '/')}`}
                                         alt={agent.fullName}
                                     />
                                 </div>

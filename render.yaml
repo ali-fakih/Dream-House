@@ -1,8 +1,7 @@
 services:
-  # Backend API service
   - type: web
-    name: dreamhouse-api
-    runtime: node
+    name: dreamhouse-backend
+    env: node
     buildCommand: cd backend && npm install
     startCommand: cd backend && node server.js
     envVars:
@@ -14,12 +13,6 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: AUTH_EMAIL
-        sync: false
-      - key: Auth_PASS
-        sync: false
-      - key: APP_BASE_URL
-        value: https://dreamhouse-frontend.onrender.com/
       - key: RESET_PASSWORD_KEY
         sync: false
       - key: SECRET_STRIPE_KEY
@@ -28,13 +21,5 @@ services:
         sync: false
       - key: CHAT_ENGINE_PRIVATE_KEY
         sync: false
-
-  # Frontend application
-  - type: web
-    name: dreamhouse-frontend
-    runtime: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        value: https://dreamhouse-api.onrender.com
+      - key: CORS_ORIGIN
+        value: https://your-vercel-frontend-url.vercel.app

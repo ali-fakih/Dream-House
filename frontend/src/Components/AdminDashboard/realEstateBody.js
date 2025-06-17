@@ -265,10 +265,7 @@ function RealEstate() {
               <div className="w-full h-40 bg-green-600 rounded-2xl">
                 {realestate.images[0] && (
                   <img
-                    src={`${API_URL}/${realestate.images[0].replace(
-                      /\\/g,
-                      `/"
-                    )}`}
+                    src={`${API_URL}/${realestate.images[0].replace(/\\/g, '/')}`}
                     alt={realestate.images[0]}
                     className="w-full h-full rounded-2xl"
                   />

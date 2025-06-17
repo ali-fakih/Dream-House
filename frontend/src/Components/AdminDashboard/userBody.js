@@ -412,7 +412,7 @@ function UserBody() {
                         <img
                           src={`${API_URL}/${agent.image.replace(
                             /\\/g,
-                            `/"
+                            '/'
                           )}`}
                           alt={agent.fullName}
                           className="size-36 z-40 border-4 border-white rounded-full"
